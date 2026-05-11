@@ -1,0 +1,27 @@
+﻿@model List<HospitalVeterinario.Data.Models.Nomina>
+
+<div class="container py-4">
+    <h2>Mis Sueldos</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Neto</th>
+                <th>Productividad</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.FechaPago.ToShortDateString()</td>
+                    <td>@item.TipoPago</td>
+                    <td>Q @item.SalarioNeto</td>
+                    <th>Días Trabajados</th>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,37 @@
+﻿@model HospitalVeterinario.Data.Models.Empleado
+
+<div class="container py-4">
+
+    <h2 class="fw-bold text-center mb-4">
+        Bienvenido @Model.Nombre 👋
+    </h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <a href="/Trabajador/Perfil" class="card p-4 shadow text-center text-decoration-none">
+                <h5>👤 Mi Perfil</h5>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/Trabajador/MisPagos" class="card p-4 shadow text-center text-decoration-none">
+                <h5> Mis Sueldos</h5>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/Trabajador/MiProductividad" class="card p-4 shadow text-center text-decoration-none">
+                <h5> Productividad</h5>
+            </a>
+        </div>
+
+        <div class="col-md-12">
+            <a href="/Trabajador/SolicitarVacaciones" class="card p-4 shadow text-center text-decoration-none">
+                <h5> Solicitar Vacaciones</h5>
+            </a>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,274 @@
+﻿@{
+    ViewData["Title"] = "Panel de Administración";
+}
+
+<style>
+
+    .panel-bg {
+        min-height: 100vh;
+        padding: 35px;
+        background: linear-gradient(135deg, #ff7e5f, #f7971e, #6a11cb);
+        animation: aparecerPanel 0.8s ease-out;
+    }
+
+    .panel-header {
+        background: rgba(255,255,255,0.92);
+        border-radius: 22px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+        margin-bottom: 30px;
+    }
+
+    .panel-card {
+        border-radius: 22px;
+        border: none;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+        transition: 0.3s;
+        animation: subirCard 0.8s ease-out;
+    }
+
+        .panel-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.28);
+        }
+
+    .btn-gradient {
+        border: none;
+        color: white;
+        border-radius: 25px;
+        background: linear-gradient(135deg, #6a11cb, #ff7e5f);
+        padding: 9px 18px;
+        font-weight: 600;
+    }
+
+        .btn-gradient:hover {
+            color: white;
+            transform: scale(1.04);
+        }
+
+    .btn-outline-custom {
+        border-radius: 25px;
+        border: 1px solid #6a11cb;
+        color: #6a11cb;
+        padding: 9px 18px;
+        font-weight: 600;
+    }
+
+        .btn-outline-custom:hover {
+            background: #6a11cb;
+            color: white;
+        }
+
+    @@keyframes aparecerPanel {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @@keyframes subirCard {
+        from {
+            opacity: 0;
+            transform: translateY(35px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+</style>
+
+<div class="panel-bg">
+
+    <div class="panel-header d-flex justify-content-between align-items-center">
+
+        <div>
+            <h1 class="fw-bold mb-1">Veterinaria KOA</h1>
+            <p class="text-muted mb-0">
+                Panel de administración del sistema de Recursos Humanos.
+            </p>
+        </div>
+
+        <a href="/Login/CerrarSesion"
+           class="btn btn-outline-danger rounded-pill px-4">
+            Cerrar sesión
+        </a>
+
+    </div>
+
+    <div class="row g-4">
+
+        <!-- EMPLEADOS -->
+        <div class="col-md-4">
+
+            <div class="card panel-card h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="card-title fw-bold">Empleados</h5>
+
+                    <p class="card-text text-muted">
+                        Gestionar empleados registrados en el sistema.
+                    </p>
+
+                    <div class="d-flex gap-2 flex-wrap">
+
+                        <a href="/Admin/ListaEmpleados"
+                           class="btn btn-gradient">
+                            Ver empleados
+                        </a>
+
+                        <a href="/Admin/AgregarEmpleado"
+                           class="btn btn-outline-custom">
+                            Agregar
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- USUARIOS -->
+        <div class="col-md-4">
+
+            <div class="card panel-card h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="card-title fw-bold">Usuarios</h5>
+
+                    <p class="card-text text-muted">
+                        Crear usuarios para empleados.
+                    </p>
+
+                    <a href="/Admin/Usuarios"
+                       class="btn btn-gradient">
+                        Crear usuario
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- PAGOS -->
+        <div class="col-md-4">
+
+            <div class="card panel-card h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="card-title fw-bold">Pagos</h5>
+
+                    <p class="card-text text-muted">
+                        Control de pagos, planilla, IGSS, ISR y bonos.
+                    </p>
+
+                    <div class="d-flex gap-2 flex-wrap">
+
+                        <a href="/Admin/SeleccionarEmpleadoPago"
+                           class="btn btn-gradient">
+                            Pagar
+                        </a>
+
+                        <a href="/Admin/FlujoPagos"
+                           class="btn btn-outline-custom">
+                            Flujo
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- PRODUCTIVIDAD -->
+        <div class="col-md-4">
+
+            <div class="card panel-card h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="card-title fw-bold">Productividad</h5>
+
+                    <p class="card-text text-muted">
+                        Analizar rendimiento y desempeño.
+                    </p>
+
+                    <a href="/Admin/ProductividadEmpleado"
+                       class="btn btn-gradient">
+                        Ver productividad
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- VACACIONES -->
+        <div class="col-md-4">
+
+            <div class="card panel-card h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="card-title fw-bold">
+                        Solicitudes Vacaciones
+                    </h5>
+
+                    <p class="card-text text-muted">
+                        Aprobar o rechazar vacaciones.
+                    </p>
+
+                    <a href="/Admin/SolicitudesVacaciones"
+                       class="btn btn-gradient">
+                        Ver solicitudes
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- DESPIDOS -->
+        <div class="col-md-4">
+
+            <div class="card panel-card h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="card-title fw-bold">
+                        Despedir Empleado
+                    </h5>
+
+                    <p class="card-text text-muted">
+                        Gestionar despidos y recontrataciones.
+                    </p>
+
+                    <a href="/Admin/DespedirEmpleado"
+                       class="btn btn-gradient">
+                        Gestionar
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

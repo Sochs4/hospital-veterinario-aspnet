@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Crear Usuario";
+}
+
+<div class="container-fluid py-4">
+
+    <div class="card shadow-sm border-0" style="max-width: 600px;">
+        <div class="card-body p-4">
+
+            <h2 class="fw-bold mb-1">Crear Usuario</h2>
+            <p class="text-muted mb-4">
+                Usuario para: <strong>@ViewBag.NombreEmpleado</strong>
+            </p>
+
+            <form asp-action="CrearUsuarioEmpleado" method="post">
+
+                <input type="hidden" name="idEmpleado" value="@ViewBag.IdEmpleado" />
+
+                <div class="mb-3">
+                    <label class="form-label">Usuario generado</label>
+                    <input type="text"
+                           name="username"
+                           class="form-control"
+                           value="@ViewBag.UsuarioGenerado"
+                           readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password"
+                           name="password"
+                           class="form-control"
+                           placeholder="Ingrese la contraseña"
+                           required />
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-success">
+                        Guardar usuario
+                    </button>
+
+                    <a href="/Admin/Usuarios" class="btn btn-secondary">
+                        Cancelar
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>

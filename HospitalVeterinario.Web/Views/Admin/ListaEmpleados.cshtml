@@ -1,0 +1,75 @@
+﻿@model IEnumerable<HospitalVeterinario.Data.Models.Empleado>
+
+@{
+    ViewData["Title"] = "Lista de Empleados";
+}
+
+<div class="container-fluid py-4">
+
+    <a href="@Url.Action("Index", "Admin")" class="btn btn-secondary mt-3">
+        ← Regresar al menú
+    </a>
+
+
+    <h1 class="fw-bold mb-3">Lista de Empleados</h1>
+
+
+   
+ 
+
+    <table class="table table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Salario</th>
+                <th style="width:220px;">Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@(item.Nombre ?? "N/A")</td>
+                        <td>@(item.Apellido ?? "N/A")</td>
+                        <td>@(item.Email ?? "N/A")</td>
+                        <td>@(item.Telefono ?? "N/A")</td>
+                        <td>Q @(item.SalarioBase ?? 0)</td>
+
+                        <td>
+                            <a href="/Admin/EditarEmpleado?id=@item.IdEmpleado"
+                               class="btn btn-warning btn-sm">
+                                Editar
+                            </a>
+
+                            <a href="/Admin/DetallesEmpleado?id=@item.IdEmpleado"
+                               class="btn btn-info btn-sm">
+                                Detalles
+                            </a>
+
+                            <a href="/Admin/EliminarEmpleado?id=@item.IdEmpleado"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('¿Seguro que deseas eliminar este empleado?');">
+                                Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center text-muted">
+                        No hay empleados registrados
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

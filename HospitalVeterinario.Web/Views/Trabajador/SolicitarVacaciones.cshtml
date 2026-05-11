@@ -1,0 +1,97 @@
+﻿    <div class="container py-4">
+
+        <h2 class="fw-bold mb-4">Solicitar Vacaciones</h2>
+
+        <div class="row g-3 mb-4">
+
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0 p-3">
+                    <small class="text-muted">Fecha actual</small>
+                    <h5 class="fw-bold">@ViewBag.FechaActual</h5>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0 p-3">
+                    <small class="text-muted">Fecha contratación</small>
+                    <h5 class="fw-bold">@ViewBag.FechaContratacion</h5>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0 p-3">
+                    <small class="text-muted">Período trabajado</small>
+                    <h5 class="fw-bold">@ViewBag.AniosCumplidos año(s)</h5>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow-sm border-0 p-3">
+                    <small class="text-muted">Vacaciones pendientes</small>
+                    <h5 class="fw-bold text-success">
+                        @ViewBag.DiasVacacionesPendientes días
+                    </h5>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="alert alert-info">
+            <strong>Regla aplicada:</strong> 15 días hábiles por cada año trabajado.
+            <br />
+            <strong>Estado:</strong> @ViewBag.MensajePeriodo
+        </div>
+
+        <form method="post">
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Fecha Inicio</label>
+                <input type="date" id="FechaInicio" name="FechaInicio" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Fecha Fin</label>
+                <input type="date" id="FechaFin" name="FechaFin" class="form-control" readonly required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Motivo</label>
+                <textarea name="Motivo" class="form-control" rows="3"></textarea>
+            </div>
+
+            <button class="btn btn-koa">
+                Enviar Solicitud
+            </button>
+
+        </form>
+    </div>
+
+    <script>
+        function sumarDiasHabiles(fechaInicio, diasHabiles) {
+            let fecha = new Date(fechaInicio);
+            let diasContados = 0;
+
+            while (diasContados < diasHabiles) {
+                fecha.setDate(fecha.getDate() + 1);
+
+                let diaSemana = fecha.getDay();
+
+                // 0 = domingo, 6 = sábado
+                if (diaSemana !== 0 && diaSemana !== 6) {
+                    diasContados++;
+                }
+            }
+
+            return fecha;
+        }
+
+        document.getElementById("FechaInicio").addEventListener("change", function () {
+            let fechaInicio = this.value;
+
+            if (!fechaInicio) return;
+
+            let fechaFin = sumarDiasHabiles(fechaInicio, 15);
+
+            document.getElementById("FechaFin").value = fechaFin.toISOString().split("T")[0];
+        });
+    </script>

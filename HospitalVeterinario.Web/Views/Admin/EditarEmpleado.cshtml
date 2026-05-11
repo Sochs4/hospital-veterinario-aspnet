@@ -1,0 +1,86 @@
+﻿@model HospitalVeterinario.Data.Models.Empleado
+
+@{
+    ViewData["Title"] = "Editar Empleado";
+}
+
+<div class="container mt-4">
+
+    <h2>Editar Empleado</h2>
+
+    <form asp-action="EditarEmpleado" method="post">
+
+        <input type="hidden" asp-for="IdEmpleado" />
+
+        <h5>Datos personales</h5>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Nombre</label>
+                <input asp-for="Nombre" class="form-control" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Apellido</label>
+                <input asp-for="Apellido" class="form-control" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Fecha de nacimiento</label>
+                <input asp-for="FechaNacimiento" type="date" class="form-control" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Género</label>
+                <select asp-for="Genero" class="form-select">
+                    <option value="">Seleccione</option>
+                    <option>Masculino</option>
+                    <option>Femenino</option>
+                </select>
+            </div>
+        </div>
+
+        <h5>Contacto</h5>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Email</label>
+                <input asp-for="Email" class="form-control" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Teléfono</label>
+                <input asp-for="Telefono" class="form-control" />
+            </div>
+        </div>
+
+        <h5>Datos laborales</h5>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Fecha contratación</label>
+                <input asp-for="FechaContratacion" type="date" class="form-control" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Estado</label>
+                <select asp-for="EstadoEmpleado" class="form-select">
+                    <option>Activo</option>
+                    <option>Inactivo</option>
+                </select>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Salario</label>
+                <input asp-for="SalarioBase" class="form-control" />
+            </div>
+        </div>
+
+        <button class="btn btn-success">Guardar Cambios</button>
+        <a href="/Admin/ListaEmpleados" class="btn btn-secondary">
+            Volver
+        </a>
+        
+
+    </form>
+</div>

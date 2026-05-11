@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalVeterinario.Data", "HospitalVeterinario.Data\HospitalVeterinario.Data.csproj", "{661D89B5-96F3-4E1F-8E00-65417EF5DDC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalVeterinario.Web", "HospitalVeterinario.Web\HospitalVeterinario.Web.csproj", "{28260084-EA58-4469-8825-0EA37A40FFB3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{661D89B5-96F3-4E1F-8E00-65417EF5DDC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{661D89B5-96F3-4E1F-8E00-65417EF5DDC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{661D89B5-96F3-4E1F-8E00-65417EF5DDC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{661D89B5-96F3-4E1F-8E00-65417EF5DDC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28260084-EA58-4469-8825-0EA37A40FFB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28260084-EA58-4469-8825-0EA37A40FFB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28260084-EA58-4469-8825-0EA37A40FFB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28260084-EA58-4469-8825-0EA37A40FFB3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6CB0501-E812-47B1-90CD-84137B86B09F}
+	EndGlobalSection
+EndGlobal

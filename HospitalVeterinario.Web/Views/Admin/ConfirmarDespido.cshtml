@@ -1,0 +1,31 @@
+﻿@model HospitalVeterinario.Data.Models.Empleado
+
+<h2 class="fw-bold mb-4 text-danger">Confirmar despido</h2>
+
+<div class="card shadow p-4">
+    <h4>@Model.Nombre @Model.Apellido</h4>
+
+    <p><strong>Fecha ingreso:</strong> @Model.FechaContratacion?.ToString("dd/MM/yyyy")</p>
+    <p><strong>Fecha salida:</strong> @ViewBag.FechaSalida</p>
+    <p><strong>Días trabajados:</strong> @ViewBag.DiasTrabajados</p>
+    <p><strong>Años trabajados:</strong> @ViewBag.AniosTrabajados</p>
+    <p><strong>Salario base:</strong> Q @Model.SalarioBase</p>
+
+    <hr />
+
+    <h4 class="text-success">
+        Liquidación estimada: Q @ViewBag.Indemnizacion.ToString("0.00")
+    </h4>
+
+    <form action="/Admin/ProcesarDespido" method="post">
+        <input type="hidden" name="empleadoId" value="@Model.IdEmpleado" />
+
+        <button class="btn btn-danger">
+            Confirmar despido
+        </button>
+
+        <a href="/Admin/DespedirEmpleado" class="btn btn-secondary">
+            Cancelar
+        </a>
+    </form>
+</div>

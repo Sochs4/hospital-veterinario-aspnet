@@ -1,0 +1,81 @@
+﻿@model List<HospitalVeterinario.Data.Models.Empleado>
+
+<h2 class="fw-bold mb-4 text-danger">
+    Despedir / Recontratar Empleado
+</h2>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Mensaje"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<table class="table table-striped table-bordered align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Empleado</th>
+            <th>Fecha ingreso</th>
+            <th>Salario base</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var emp in Model)
+        {
+            <tr>
+                <td class="fw-semibold">
+                    @emp.Nombre @emp.Apellido
+                </td>
+
+                <td>
+                    @emp.FechaContratacion?.ToString("dd/MM/yyyy")
+                </td>
+
+                <td>
+                    Q @emp.SalarioBase?.ToString("0.00")
+                </td>
+
+                <td>
+                    @if (emp.Activo)
+                    {
+                        <span class="badge bg-success fs-6">Activo</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger fs-6">Despedido</span>
+                    }
+                </td>
+
+                <td>
+                    @if (emp.Activo)
+                    {
+                        <a href="@Url.Action("ConfirmarDespido", "Admin", new { id = emp.IdEmpleado })"
+                           class="btn btn-danger btn-sm">
+                            Despedir
+                        </a>
+                    }
+                    else
+                    {
+                        <form action="/Admin/RecontratarEmpleado" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@emp.IdEmpleado" />
+
+                            <button type="submit" class="btn btn-success btn-sm">
+                                Recontratar
+                            </button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,79 @@
+﻿@model IEnumerable<HospitalVeterinario.Data.Models.Empleado>
+
+@{
+    ViewData["Title"] = "Gestión de Usuarios";
+}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold mb-1">Gestión de Usuarios</h1>
+            <p class="text-muted mb-0">
+                Crear usuarios para que los empleados puedan ingresar al sistema.
+            </p>
+        </div>
+
+        <a href="@Url.Action("Index", "Admin")" class="btn btn-secondary mt-3">
+            ← Regresar al menú
+        </a>
+    </div>
+
+    @if (TempData["Mensaje"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Mensaje"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <h5 class="fw-bold mb-3">Lista de colaboradores</h5>
+
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Empleado</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Puesto ID</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <strong>@item.Nombre @item.Apellido</strong><br />
+                                <small class="text-muted">ID: @item.IdEmpleado</small>
+                            </td>
+
+                            <td>@(item.Email ?? "No registrado")</td>
+                            <td>@(item.Telefono ?? "No registrado")</td>
+                            <td>@(item.IdPuesto?.ToString() ?? "No asignado")</td>
+
+                            <td>
+                                <a href="/Admin/CrearUsuarioEmpleado?id=@item.IdEmpleado"
+                                   class="btn btn-success btn-sm">
+                                    Crear usuario
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>

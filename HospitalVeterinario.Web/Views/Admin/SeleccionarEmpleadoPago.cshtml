@@ -1,0 +1,49 @@
+﻿@model IEnumerable<HospitalVeterinario.Data.Models.Empleado>
+
+@{
+    ViewData["Title"] = "Seleccionar Empleado para Pago";
+}
+
+<div class="container mt-4">
+
+    <a href="@Url.Action("Index", "Admin")" class="btn btn-secondary mt-3">
+        ← Regresar al menú
+    </a>
+
+    <h2 class="mb-4">Seleccionar Empleado para Pago</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Salario</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Nombre</td>
+                    <td>@item.Apellido</td>
+                    <td>Q @item.SalarioBase</td>
+
+                    <td>
+                        <a asp-controller="Admin"
+                           asp-action="RealizarPago"
+                           asp-route-id="@item.IdEmpleado"
+                           class="btn btn-success btn-sm">
+                    
+                        <a href="/Admin/RealizarPago/@item.IdEmpleado" class="btn btn-success btn-sm">
+                            Pagar
+                        </a>
+                    </td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

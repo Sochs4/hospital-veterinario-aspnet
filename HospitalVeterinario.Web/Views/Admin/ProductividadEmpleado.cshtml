@@ -1,0 +1,125 @@
+﻿@model List<HospitalVeterinario.Data.Models.Nomina>
+
+@{
+    ViewData["Title"] = "Productividad por empleado";
+    var empleados = ViewBag.Empleados as List<HospitalVeterinario.Data.Models.Empleado>;
+}
+
+<h2 class="fw-bold mb-4">Productividad por Empleado</h2>
+
+<form method="get" class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <label class="form-label">Empleado</label>
+        <select name="empleadoId" class="form-select">
+            <option value="">Todos</option>
+            @foreach (var emp in empleados)
+            {
+                <option value="@emp.IdEmpleado" selected="@(ViewBag.EmpleadoId == emp.IdEmpleado)">
+                    @emp.Nombre @emp.Apellido
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <label class="form-label">Mes</label>
+        <select name="mes" class="form-select">
+            <option value="">Todos</option>
+            @for (int i = 1; i <= 12; i++)
+            {
+                <option value="@i" selected="@(ViewBag.Mes == i)">@i</option>
+            }
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <label class="form-label">Año</label>
+        <input type="number" name="anio" class="form-control" value="@ViewBag.Anio" placeholder="2026" />
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label">Tipo de pago</label>
+        <select name="tipoPago" class="form-select">
+            <option value="">Todos</option>
+            <option value="Mensual" selected="@(ViewBag.TipoPago == "Mensual")">Mensual</option>
+            <option value="Quincenal" selected="@(ViewBag.TipoPago == "Quincenal")">Quincenal</option>
+            <option value="Semanal" selected="@(ViewBag.TipoPago == "Semanal")">Semanal</option>
+        </select>
+    </div>
+
+    <div class="col-md-2 d-flex align-items-end">
+        <button class="btn btn-koa w-100">Buscar</button>
+    </div>
+</form>
+
+<div class="card shadow p-4 mb-4">
+    <h5 class="fw-bold mb-3">Gráfica de Productividad</h5>
+    <canvas id="graficaProductividad" height="100"></canvas>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Empleado</th>
+            <th>Mes/Año</th>
+            <th>Tipo</th>
+            <th>Días Trabajados</th>
+            <th>Días Hábiles</th>
+            <th>Productividad</th>
+            <th>Nivel</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Empleado?.Nombre @item.Empleado?.Apellido</td>
+                <td>@item.Mes/@item.Anio</td>
+                <td>@item.TipoPago</td>
+                <td>@item.DiasTrabajados</td>
+                <td>@item.DiasHabilesMes</td>
+                <td><strong>@item.PorcentajeProductividad.ToString("0.00")%</strong></td>
+                <td>@item.NivelProductividad</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const etiquetas = [
+        @foreach (var item in Model)
+        {
+                <text>'@item.Empleado?.Nombre @item.Mes/@item.Anio',</text>
+        }
+    ];
+
+    const valores = [
+        @foreach (var item in Model)
+        {
+                <text>@item.PorcentajeProductividad.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),</text>
+        }
+    ];
+
+    new Chart(document.getElementById('graficaProductividad'), {
+        type: 'bar',
+        data: {
+            labels: etiquetas,
+            datasets: [{
+                label: 'Productividad %',
+                data: valores,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+</script>

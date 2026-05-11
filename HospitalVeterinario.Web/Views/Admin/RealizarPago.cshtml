@@ -1,0 +1,154 @@
+﻿@model HospitalVeterinario.Data.Models.Empleado
+
+@{
+    ViewData["Title"] = "Realizar Pago";
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<div class="container mt-4">
+    <div class="card shadow p-4">
+
+        <h3 class="mb-3">Realizar Pago</h3>
+
+        <h5>@Model.Nombre @Model.Apellido</h5>
+        <p><strong>Salario base:</strong> Q @Model.SalarioBase</p>
+
+        <form asp-controller="Admin" asp-action="RealizarPago" method="post">
+
+            <input type="hidden" name="empleadoId" value="@Model.IdEmpleado" />
+
+            <div class="mb-3">
+                <label class="form-label">Mes</label>
+                <select name="mes" class="form-control" required>
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+            </div>
+
+            <div id="alertaBono" class="alert alert-info d-none mt-2"></div>
+
+            <div class="mb-3">
+                <label class="form-label">Año</label>
+                <input type="number" name="anio" class="form-control" value="2026" min="2010" max="2035" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tipo de pago</label>
+                <select name="tipoPago" class="form-control" required>
+                    <option value="Mensual">Mensual</option>
+                    <option value="Quincenal">Quincenal</option>
+                    <option value="Semanal">Semanal</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Días hábiles del mes</label>
+                <input type="number" id="diasHabilesMes" name="diasHabilesMes" class="form-control" readonly />
+                <small class="text-muted">
+                    El sistema los calculará automáticamente según el mes y año.
+                </small>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Días trabajados</label>
+                <input type="number" name="diasTrabajados" class="form-control" value="22" min="0" max="31" required />
+            </div>
+
+            <button type="submit" class="btn btn-success">
+                💰 Guardar Pago
+            </button>
+
+            <a href="@Url.Action("Index", "Admin", "seleccionarEmpleadoPago")" class="btn btn-secondary mt-3">
+                Volver
+            </a>
+
+        </form>
+
+    </div>
+</div>
+
+<<script>
+     document.addEventListener("DOMContentLoaded", function () {
+
+         function calcularDiasHabiles() {
+             const mes = parseInt(document.querySelector('[name="mes"]').value);
+             const anio = parseInt(document.querySelector('[name="anio"]').value);
+             const tipoPago = document.querySelector('[name="tipoPago"]').value;
+
+             let diasDelMes = new Date(anio, mes, 0).getDate();
+             let diasHabiles = 0;
+
+             for (let dia = 1; dia <= diasDelMes; dia++) {
+                 let fecha = new Date(anio, mes - 1, dia);
+                 let diaSemana = fecha.getDay();
+
+                 if (diaSemana !== 0 && diaSemana !== 6) {
+                     diasHabiles++;
+                 }
+             }
+
+             let diasCalculados = diasHabiles;
+
+             if (tipoPago === "Quincenal") {
+                 diasCalculados = Math.ceil(diasHabiles / 2);
+             }
+
+             if (tipoPago === "Semanal") {
+                 diasCalculados = Math.ceil(diasHabiles / 4);
+             }
+
+             document.getElementById('diasHabilesMes').value = diasCalculados;
+
+             const diasTrabajados = document.querySelector('[name="diasTrabajados"]');
+             diasTrabajados.max = diasCalculados;
+
+             if (parseInt(diasTrabajados.value) > diasCalculados) {
+                 diasTrabajados.value = diasCalculados;
+             }
+         }
+
+         function mostrarAlertaBono() {
+             const mes = parseInt(document.querySelector('[name="mes"]').value);
+             const alerta = document.getElementById("alertaBono");
+
+             alerta.classList.add("d-none");
+             alerta.innerHTML = "";
+
+             if (mes === 7) {
+                 alerta.classList.remove("d-none");
+                 alerta.className = "alert alert-warning mt-2";
+                 alerta.innerHTML = "Este mes corresponde pago de Bono 14. Se calculará con el promedio de pagos de enero a junio.";
+             }
+
+             if (mes === 12) {
+                 alerta.classList.remove("d-none");
+                 alerta.className = "alert alert-success mt-2";
+                 alerta.innerHTML = "Este mes corresponde pago de Aguinaldo. Se calculará con el promedio de pagos de julio a noviembre.";
+             }
+         }
+
+         document.querySelector('[name="mes"]').addEventListener('change', calcularDiasHabiles);
+         document.querySelector('[name="mes"]').addEventListener('change', mostrarAlertaBono);
+         document.querySelector('[name="anio"]').addEventListener('input', calcularDiasHabiles);
+         document.querySelector('[name="tipoPago"]').addEventListener('change', calcularDiasHabiles);
+
+         calcularDiasHabiles();
+         mostrarAlertaBono();
+     });
+</script>
