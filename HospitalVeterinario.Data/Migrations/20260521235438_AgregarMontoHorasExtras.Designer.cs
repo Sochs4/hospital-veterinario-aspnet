@@ -4,6 +4,7 @@ using HospitalVeterinario.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HospitalVeterinario.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260521235438_AgregarMontoHorasExtras")]
+    partial class AgregarMontoHorasExtras
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +46,7 @@ namespace HospitalVeterinario.Data.Migrations
 
                     b.HasIndex("EmpleadoId");
 
-                    b.ToTable("Asistencias", (string)null);
+                    b.ToTable("Asistencias");
                 });
 
             modelBuilder.Entity("HospitalVeterinario.Data.Models.Departamento", b =>
@@ -64,7 +67,7 @@ namespace HospitalVeterinario.Data.Migrations
 
                     b.HasKey("IdDepartamento");
 
-                    b.ToTable("Departamentos", (string)null);
+                    b.ToTable("Departamentos");
                 });
 
             modelBuilder.Entity("HospitalVeterinario.Data.Models.Empleado", b =>
@@ -155,7 +158,7 @@ namespace HospitalVeterinario.Data.Migrations
 
                     b.HasIndex("IdPuesto");
 
-                    b.ToTable("Empleados", (string)null);
+                    b.ToTable("Empleados");
                 });
 
             modelBuilder.Entity("HospitalVeterinario.Data.Models.Nomina", b =>
@@ -238,7 +241,7 @@ namespace HospitalVeterinario.Data.Migrations
 
                     b.HasIndex("EmpleadoId");
 
-                    b.ToTable("Nominas", (string)null);
+                    b.ToTable("Nominas");
                 });
 
             modelBuilder.Entity("HospitalVeterinario.Data.Models.Pago", b =>
@@ -308,7 +311,7 @@ namespace HospitalVeterinario.Data.Migrations
 
                     b.HasIndex("EmpleadoId");
 
-                    b.ToTable("Pagos", (string)null);
+                    b.ToTable("Pagos");
                 });
 
             modelBuilder.Entity("HospitalVeterinario.Data.Models.Puesto", b =>
@@ -343,7 +346,7 @@ namespace HospitalVeterinario.Data.Migrations
 
                     b.HasKey("IdPuesto");
 
-                    b.ToTable("Puestos", (string)null);
+                    b.ToTable("Puestos");
                 });
 
             modelBuilder.Entity("HospitalVeterinario.Data.Models.User", b =>
@@ -376,7 +379,7 @@ namespace HospitalVeterinario.Data.Migrations
 
                     b.HasIndex("EmpleadoId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("HospitalVeterinario.Data.Models.Vacacion", b =>
@@ -414,7 +417,7 @@ namespace HospitalVeterinario.Data.Migrations
 
                     b.HasIndex("EmpleadoId");
 
-                    b.ToTable("Vacacion", (string)null);
+                    b.ToTable("Vacacion");
                 });
 
             modelBuilder.Entity("HospitalVeterinario.Data.Models.Asistencia", b =>

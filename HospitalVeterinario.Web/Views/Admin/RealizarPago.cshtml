@@ -70,6 +70,16 @@
                 <input type="number" name="diasTrabajados" class="form-control" value="22" min="0" max="31" required />
             </div>
 
+            <div class="mb-3">
+                <label class="form-label">Horas extras</label>
+                <input type="number" name="horasExtras" class="form-control" value="0" min="0" step="0.5" />
+                <small class="text-muted">
+                    Se calcularán según el salario del empleado.
+                </small>
+            </div>
+
+            <div id="infoHorasExtras" class="alert alert-info mt-2 d-none"></div>
+
             <button type="submit" class="btn btn-success">
                 💰 Guardar Pago
             </button>
@@ -85,6 +95,30 @@
 
 <<script>
      document.addEventListener("DOMContentLoaded", function () {
+
+              function calcularHorasExtrasUI() {
+         const horas = parseFloat(document.querySelector('[name="horasExtras"]').value) || 0;
+         const salarioBase = parseFloat("@Model.SalarioBase") || 0;
+         const dias = parseFloat(document.getElementById('diasHabilesMes').value) || 1;
+
+         let valorDia = salarioBase / dias;
+         let valorHora = valorDia / 8;
+         let valorHoraExtra = valorHora * 1.5;
+
+         let total = horas * valorHoraExtra;
+
+         const div = document.getElementById("infoHorasExtras");
+
+         if (horas > 0) {
+             div.classList.remove("d-none");
+             div.innerHTML = `
+                 Valor hora extra: Q ${valorHoraExtra.toFixed(2)} <br>
+                 Total horas extras: Q ${total.toFixed(2)}
+             `;
+         } else {
+             div.classList.add("d-none");
+         }
+     }
 
          function calcularDiasHabiles() {
              const mes = parseInt(document.querySelector('[name="mes"]').value);

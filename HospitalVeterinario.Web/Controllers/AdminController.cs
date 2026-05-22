@@ -310,7 +310,7 @@ namespace HospitalVeterinario.Web.Controllers
             return RedirectToAction("SolicitudesVacaciones");
         }
         [HttpPost]
-        public IActionResult RealizarPago(int empleadoId, string tipoPago, int diasHabilesMes, int diasTrabajados, int mes, int anio)
+        public IActionResult RealizarPago(int empleadoId, string tipoPago, int diasHabilesMes, int diasTrabajados, int mes, int anio, decimal horasExtras)
         {
             var empleado = _context.Empleados.Find(empleadoId);
             var pagosDelMes = _context.Nominas
@@ -425,7 +425,12 @@ namespace HospitalVeterinario.Web.Controllers
             }
 
             decimal salarioBruto = (salarioPeriodo / diasHabilesMes) * diasTrabajados;
+            decimal valorDia = salarioPeriodo / diasHabilesMes;
+            decimal valorHora = valorDia / 8;
+            decimal valorHoraExtra = valorHora * 1.5m;
+            decimal montoHorasExtras = horasExtras * valorHoraExtra;
 
+            salarioBruto += montoHorasExtras;
             decimal bono14 = 0;
             decimal aguinaldo = 0;
 
@@ -499,6 +504,8 @@ namespace HospitalVeterinario.Web.Controllers
                 FechaPago = DateTime.Now,
                 SalarioBase = salarioBase,
                 SalarioBruto = salarioBruto,
+                HorasExtras = horasExtras,
+                MontoHorasExtras = montoHorasExtras,
                 DiasHabilesMes = diasHabilesMes,
                 DiasTrabajados = diasTrabajados,
                 DiasAusentes = diasAusentes,

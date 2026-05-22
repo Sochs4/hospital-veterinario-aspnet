@@ -42,9 +42,14 @@ namespace HospitalVeterinario.Data.Models
         public decimal HorasExtras { get; set; }
 
         // Asistencia
+
+        [Column(TypeName = "decimal(18,2)")]
+
+        public decimal MontoHorasExtras { get; set; }
         public int DiasHabilesMes { get; set; }
 
         public int DiasTrabajados { get; set; }
+
 
         public int DiasAusentes { get; set; }
 

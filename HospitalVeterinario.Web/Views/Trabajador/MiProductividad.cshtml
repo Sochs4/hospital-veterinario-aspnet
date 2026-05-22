@@ -1,14 +1,59 @@
 ﻿@model List<HospitalVeterinario.Data.Models.Nomina>
 
-<div class="container py-4">
-    <h2>Mi Productividad</h2>
+@{
+    var promedioProductividad = Model.Any() ? Model.Average(x => x.PorcentajeProductividad) : 0;
+    var totalHorasExtras = Model.Any() ? Model.Sum(x => x.HorasExtras) : 0;
+    var totalMontoHorasExtras = Model.Any() ? Model.Sum(x => x.MontoHorasExtras) : 0;
+}
 
-    <table class="table table-bordered">
-        <thead>
+<div class="container py-4">
+    <h2 class="fw-bold mb-4">Mi Productividad</h2>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm p-3">
+                <h6 class="text-muted">Promedio productividad</h6>
+                <h4 class="fw-bold">@promedioProductividad.ToString("0.00")%</h4>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm p-3">
+                <h6 class="text-muted">Total horas extras</h6>
+                <h4 class="fw-bold">@totalHorasExtras.ToString("0.00") hrs</h4>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm p-3">
+                <h6 class="text-muted">Pago horas extras</h6>
+                <h4 class="fw-bold">Q @totalMontoHorasExtras.ToString("0.00")</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow p-4 mb-4">
+        <h5 class="fw-bold mb-3">Gráfica de Productividad</h5>
+        <canvas id="graficaProductividad" height="100"></canvas>
+    </div>
+
+    <div class="card shadow p-4 mb-4">
+        <h5 class="fw-bold mb-3">Gráfica de Horas Extras</h5>
+        <canvas id="graficaHorasExtras" height="100"></canvas>
+    </div>
+
+    <table class="table table-bordered table-striped text-center align-middle">
+        <thead class="table-dark">
             <tr>
                 <th>Fecha</th>
+                <th>Mes/Año</th>
+                <th>Tipo</th>
                 <th>Días Trabajados</th>
+                <th>Días Hábiles</th>
+                <th>Horas Extras</th>
+                <th>Pago H. Extras</th>
                 <th>Productividad</th>
+                <th>Nivel</th>
             </tr>
         </thead>
         <tbody>
@@ -16,10 +61,80 @@
             {
                 <tr>
                     <td>@item.FechaPago.ToShortDateString()</td>
+                    <td>@item.Mes/@item.Anio</td>
+                    <td>@item.TipoPago</td>
                     <td>@item.DiasTrabajados</td>
-                    <th>Días Trabajados</th>
+                    <td>@item.DiasHabilesMes</td>
+                    <td>@item.HorasExtras.ToString("0.00")</td>
+                    <td>Q @item.MontoHorasExtras.ToString("0.00")</td>
+                    <td><strong>@item.PorcentajeProductividad.ToString("0.00")%</strong></td>
+                    <td>@item.NivelProductividad</td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const etiquetas = [
+        @foreach (var item in Model)
+        {
+                <text>'@item.Mes/@item.Anio',</text>
+        }
+    ];
+
+    const productividad = [
+        @foreach (var item in Model)
+        {
+                <text>@item.PorcentajeProductividad.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),</text>
+        }
+    ];
+
+    const horasExtras = [
+        @foreach (var item in Model)
+        {
+                <text>@item.HorasExtras.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),</text>
+        }
+    ];
+
+    new Chart(document.getElementById('graficaProductividad'), {
+        type: 'bar',
+        data: {
+            labels: etiquetas,
+            datasets: [{
+                label: 'Productividad %',
+                data: productividad,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('graficaHorasExtras'), {
+        type: 'bar',
+        data: {
+            labels: etiquetas,
+            datasets: [{
+                label: 'Horas Extras',
+                data: horasExtras,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>

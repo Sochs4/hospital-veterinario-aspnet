@@ -10,8 +10,9 @@
         ← Regresar al menú
     </a>
 
-    <h2 class="mb-4">Flujo de Pagos</h2>
+    <h4 class="mb-3">Flujo de Pagos</h4>
 
+    <!-- 🔎 FILTRO -->
     <form method="get" asp-controller="Admin" asp-action="FlujoPagos" class="row g-3 mb-4">
         <div class="col-md-5">
             <label class="form-label fw-bold">Buscar por empleado</label>
@@ -26,8 +27,8 @@
         </div>
 
         <div class="col-md-4 d-flex align-items-end gap-2">
-            <button type="submit" class="btn btn-koa">Buscar</button>
-            <a href="/Admin/FlujoPagos" class="btn btn-secondary">Limpiar</a>
+            <button type="submit" class="btn btn-primary btn-sm">Buscar</button>
+            <a href="/Admin/FlujoPagos" class="btn btn-secondary btn-sm">Limpiar</a>
         </div>
     </form>
 
@@ -41,15 +42,18 @@
         <div class="alert alert-danger">@TempData["Error"]</div>
     }
 
-    <table class="table table-striped table-bordered">
-        <thead>
+    <!-- 📊 TABLA -->
+    <table class="table table-sm table-bordered table-hover text-center align-middle">
+        <thead class="table-dark">
             <tr>
                 <th>Acción</th>
                 <th>Fecha</th>
                 <th>Empleado</th>
                 <th>Mes/Año</th>
                 <th>Tipo</th>
-                <th>Salario Base</th>
+                <th>Base</th>
+                <th>Horas</th>
+                <th>H. Extras</th>
                 <th>Bono 14</th>
                 <th>Aguinaldo</th>
                 <th>IGSS</th>
@@ -66,13 +70,9 @@
                 <tr>
                     <td>
                         <form action="/Admin/EliminarPago" method="post"
-                              onsubmit="return confirm('¿Seguro que deseas eliminar este pago?');">
-
+                              onsubmit="return confirm('¿Eliminar pago?');">
                             <input type="hidden" name="id" value="@pago.Id" />
-
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                Eliminar
-                            </button>
+                            <button type="submit" class="btn btn-danger btn-sm">X</button>
                         </form>
                     </td>
 
@@ -80,12 +80,18 @@
                     <td>@pago.Empleado?.Nombre @pago.Empleado?.Apellido</td>
                     <td>@pago.Mes/@pago.Anio</td>
                     <td>@pago.TipoPago</td>
+
                     <td>Q @pago.SalarioBase.ToString("0.00")</td>
 
+                    <!-- 🔥 HORAS EXTRAS -->
+                    <td>@pago.HorasExtras.ToString("0.00")</td>
+                    <td>Q @pago.MontoHorasExtras.ToString("0.00")</td>
+
+                    <!-- BONO 14 -->
                     <td>
                         @if (pago.Mes == 7 && pago.Bono14 > 0)
                         {
-                            <span class="badge bg-success fs-6 px-3 py-2">
+                            <span class="badge bg-success">
                                 Q @pago.Bono14.ToString("0.00")
                             </span>
                         }
@@ -95,10 +101,11 @@
                         }
                     </td>
 
+                    <!-- AGUINALDO -->
                     <td>
                         @if (pago.Mes == 12 && pago.Aguinaldo > 0)
                         {
-                            <span class="badge bg-primary fs-6 px-3 py-2">
+                            <span class="badge bg-primary">
                                 Q @pago.Aguinaldo.ToString("0.00")
                             </span>
                         }
@@ -112,6 +119,7 @@
                     <td>Q @pago.DescuentoISR.ToString("0.00")</td>
                     <td>Q @pago.DescuentoAusencias.ToString("0.00")</td>
                     <td>Q @pago.DescuentoSeptimo.ToString("0.00")</td>
+
                     <td><strong>Q @pago.SalarioNeto.ToString("0.00")</strong></td>
                 </tr>
             }

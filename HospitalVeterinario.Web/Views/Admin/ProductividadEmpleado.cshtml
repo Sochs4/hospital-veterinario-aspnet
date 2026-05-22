@@ -3,6 +3,10 @@
 @{
     ViewData["Title"] = "Productividad por empleado";
     var empleados = ViewBag.Empleados as List<HospitalVeterinario.Data.Models.Empleado>;
+
+    var promedioProductividad = Model.Any() ? Model.Average(x => x.PorcentajeProductividad) : 0;
+    var totalHorasExtras = Model.Any() ? Model.Sum(x => x.HorasExtras) : 0;
+    var totalMontoHorasExtras = Model.Any() ? Model.Sum(x => x.MontoHorasExtras) : 0;
 }
 
 <h2 class="fw-bold mb-4">Productividad por Empleado</h2>
@@ -53,9 +57,37 @@
     </div>
 </form>
 
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3">
+            <h6 class="text-muted">Promedio productividad</h6>
+            <h4 class="fw-bold">@promedioProductividad.ToString("0.00")%</h4>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3">
+            <h6 class="text-muted">Total horas extras</h6>
+            <h4 class="fw-bold">@totalHorasExtras.ToString("0.00") hrs</h4>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3">
+            <h6 class="text-muted">Pago por horas extras</h6>
+            <h4 class="fw-bold">Q @totalMontoHorasExtras.ToString("0.00")</h4>
+        </div>
+    </div>
+</div>
+
 <div class="card shadow p-4 mb-4">
     <h5 class="fw-bold mb-3">Gráfica de Productividad</h5>
     <canvas id="graficaProductividad" height="100"></canvas>
+</div>
+
+<div class="card shadow p-4 mb-4">
+    <h5 class="fw-bold mb-3">Gráfica de Horas Extras</h5>
+    <canvas id="graficaHorasExtras" height="100"></canvas>
 </div>
 
 <table class="table table-striped">
@@ -66,6 +98,8 @@
             <th>Tipo</th>
             <th>Días Trabajados</th>
             <th>Días Hábiles</th>
+            <th>Horas Extras</th>
+            <th>Monto H. Extras</th>
             <th>Productividad</th>
             <th>Nivel</th>
         </tr>
@@ -79,6 +113,8 @@
                 <td>@item.TipoPago</td>
                 <td>@item.DiasTrabajados</td>
                 <td>@item.DiasHabilesMes</td>
+                <td>@item.HorasExtras.ToString("0.00")</td>
+                <td>Q @item.MontoHorasExtras.ToString("0.00")</td>
                 <td><strong>@item.PorcentajeProductividad.ToString("0.00")%</strong></td>
                 <td>@item.NivelProductividad</td>
             </tr>
@@ -103,6 +139,13 @@
         }
     ];
 
+    const horasExtras = [
+        @foreach (var item in Model)
+        {
+                <text>@item.HorasExtras.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),</text>
+        }
+    ];
+
     new Chart(document.getElementById('graficaProductividad'), {
         type: 'bar',
         data: {
@@ -118,6 +161,25 @@
                 y: {
                     beginAtZero: true,
                     max: 100
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('graficaHorasExtras'), {
+        type: 'bar',
+        data: {
+            labels: etiquetas,
+            datasets: [{
+                label: 'Horas Extras',
+                data: horasExtras,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
             }
         }
